@@ -1,0 +1,12 @@
+Package: attritevis
+Type: Package
+Title: Visualizing survey attrition across treatment condition and over-time.
+Version: 0.1.0
+Author: Lo, Renshon, Bassan-Nygate
+Maintainer: The package maintainer <lbassan@hks.harvard.edu>
+Description: Visualizing survey attrition across treatment condition and over-time.
+    Utilizing and comparing balance tests at precise moments in the survey.
+    Incorporating estimation and visualization of Manski bounds for studies suffering from problematic attrition.
+License: CC BY license
+Encoding: UTF-8
+LazyData: true
