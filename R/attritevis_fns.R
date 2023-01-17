@@ -113,13 +113,22 @@ attrition <- function(data)
 
 #`title` is a character to be used for plot title.
 
+#`Total` is a logical argument that notes whether the total # of attrited/responded is plotted. Default is TRUE. Argument can be changed to FALSE only when `treatment_q` is full.
+
+#`tline` is a logical argument that allows users to remove  treatment vline, default is tline=TRUE
+
+#outcomeline is a logical argument that allows users to remove outcome vlines, default is outcomeline=TRUE
+
 plot_attrition <- function(data
                            ,y = "attrited"
                            ,freq = TRUE
                            ,treatment_q = NULL
                            ,outcome_q = NULL
                            ,mycolors= NULL
-                           ,title = NULL)
+                           ,title = NULL
+                           ,total = TRUE
+                           ,tline = TRUE
+                           ,outcomeline = TRUE)
 {
   #required packages
   require(ggplot2)
@@ -155,7 +164,13 @@ plot_attrition <- function(data
     stop("`title` must be a character.")
 
   if(class(freq)!="logical")
-    stop("Freq must be logical. Default is freq=TRUE.")
+    stop("freq must be logical. Default is freq=TRUE.")
+
+  if(class(tline)!="logical")
+    stop("tline must be logical. Default is tline=TRUE.")
+
+  if(class(outcomeline)!="logical")
+    stop("outcomeline must be logical. Default is outcomeline=TRUE.")
 
 
   if(!is.null(treatment_q)) {
@@ -265,7 +280,7 @@ plot_attrition <- function(data
     treatment_vars$size<-1
   }
 
-  if(!is.null(outcome_q)){
+  if(!is.null(outcome_q) & outcomeline==TRUE){
     #outcome Vline
     DV<-as.data.frame(match(outcome_q, question_names))
     colnames(DV) <- "outcome_q"
@@ -332,9 +347,10 @@ plot_attrition <- function(data
   }
 
 
-  if(!is.null(mycolors)) {p <- p + scale_colour_manual(values=c(Total = "gray", mycolors))}else{
-    p <- p + scale_colour_grey()
-  }
+  if(!is.null(mycolors) & total == TRUE) {p <- p + scale_colour_manual(values=c(Total = "gray", mycolors))}
+  if(!is.null(mycolors) & total == FALSE) {p <- p + scale_colour_manual(values=c(Total = "white", mycolors))}
+  if(is.null(mycolors) & total == TRUE) {p <- p + scale_colour_grey()}
+  if(is.null(mycolors) & total == FALSE) {p <- p + scale_colour_manual(values=c(Total="white"))}
 
   #make treatment red and control blue
 
@@ -375,7 +391,7 @@ plot_attrition <- function(data
   }
 
 
-  if(!is.null(treatment_q)){
+  if(!is.null(treatment_q) & tline == TRUE){
     #treatments vertical lines
     p<-p + annotate(geom = "vline",
                     x = c(treatment_vars$treatment_q),
@@ -394,7 +410,6 @@ plot_attrition <- function(data
 
   print(p)
 }
-
 
 # ----------------------------------------------------------------------
 # Function 4: balance_cov()
