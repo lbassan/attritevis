@@ -280,7 +280,7 @@ plot_attrition <- function(data
     treatment_vars$size<-1
   }
 
-  if(!is.null(outcome_q) & outcomeline==TRUE){
+  if(!is.null(outcome_q)){
     #outcome Vline
     DV<-as.data.frame(match(outcome_q, question_names))
     colnames(DV) <- "outcome_q"
@@ -371,7 +371,7 @@ plot_attrition <- function(data
 
   # add title and labels to axis
 
-  if(!is.null(outcome_q)){
+  if(!is.null(outcome_q) & outcomeline==TRUE){
     #add the vertical lines
     p<-p +
       #DV vertical lines
