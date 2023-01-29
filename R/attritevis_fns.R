@@ -207,6 +207,9 @@ plot_attrition <- function(data
     for (i in 1:length(data_split)) {
       #first remove the `cond_new` var we created before
       df<-as.data.frame(data_split[i])
+      #save ref of dataframe by condition to create n_prev
+      df_orig<-df
+
       df[ncol(df)]<-NULL
       #for each missing value assign value 1, for complete response assign 0.
       df<- apply(df,2,function(x) {ifelse(is.na(x),1,0)})
@@ -219,8 +222,8 @@ plot_attrition <- function(data
       #create variable `attrited`, rather than missing minus skippers
       df$attrited<-c(df[1,], df[-1,] - df[-nrow(df),])
       #`prop_q` = attrited / n entering into the question
-      df$n_prev<- Lag(nrow(data_original) - as.numeric(df$missing), +1)
-      df$n_prev[1] <- nrow(data_original)
+      df$n_prev<- Lag(nrow(df_orig) - as.numeric(df$missing), +1)
+      df$n_prev[1] <- nrow(df_orig)
       df$prop_q <- round(df$attrited/df$n_prev,2)
       #add variable for question name
       df$questions<-colnames(data_original)
@@ -407,10 +410,8 @@ plot_attrition <- function(data
                angle = 90,
                vjust = 1.5)
   }
-
   print(p)
 }
-
 # ----------------------------------------------------------------------
 # Function 4: balance_cov()
 # ----------------------------------------------------------------------
