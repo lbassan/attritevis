@@ -309,6 +309,7 @@ plot_attrition <- function(data
 
   if(!is.null(treatment_q)){
     p <- data %>%
+      if(total == FALSE) {filter(treatment!="Total")%>%}
       ggplot(aes(questions2,y, group = treatment)) +
 
       #scale x axis from 1:10
@@ -351,9 +352,9 @@ plot_attrition <- function(data
 
 
   if(!is.null(mycolors) & total == TRUE) {p <- p + scale_colour_manual(values=c(Total = "gray", mycolors))}
-  if(!is.null(mycolors) & total == FALSE) {p <- p + scale_colour_manual(values=c(Total = NA, mycolors))}
+  if(!is.null(mycolors) & total == FALSE) {p <- p + scale_colour_manual(values=c(mycolors))}
   if(is.null(mycolors) & total == TRUE) {p <- p + scale_colour_grey()}
-  if(is.null(mycolors) & total == FALSE) {p <- p + scale_colour_manual(values=c(Total= NA))}
+  if(is.null(mycolors) & total == FALSE) {p <- p + scale_colour_grey()}
 
   #make treatment red and control blue
 
@@ -376,7 +377,7 @@ plot_attrition <- function(data
 
   if(!is.null(outcome_q) & outcomeline==TRUE){
     #add the vertical lines
-    p<-p + geom_line(
+    p<-p + geom_vline(
       #DV vertical lines
       #annotate(geom = "vline",
        #        x = c(DV$outcome_q),
@@ -397,7 +398,7 @@ plot_attrition <- function(data
   if(!is.null(treatment_q) & tline == TRUE){
     #treatments vertical lines
     p<-p + #annotate(geom = "vline",
-            geom_line(x = c(treatment_vars$treatment_q),
+            geom_vline(x = c(treatment_vars$treatment_q),
                     xintercept = c(treatment_vars$treatment_q),
                     color = c(treatment_vars$color),
                     size = c(treatment_vars$size)) +
