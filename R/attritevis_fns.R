@@ -351,9 +351,9 @@ plot_attrition <- function(data
 
 
   if(!is.null(mycolors) & total == TRUE) {p <- p + scale_colour_manual(values=c(Total = "gray", mycolors))}
-  if(!is.null(mycolors) & total == FALSE) {p <- p + scale_colour_manual(values=c(Total = "white", mycolors))}
+  if(!is.null(mycolors) & total == FALSE) {p <- p + scale_colour_manual(values=c(Total = "#RRGGBBAA", mycolors))}
   if(is.null(mycolors) & total == TRUE) {p <- p + scale_colour_grey()}
-  if(is.null(mycolors) & total == FALSE) {p <- p + scale_colour_manual(values=c(Total="white"))}
+  if(is.null(mycolors) & total == FALSE) {p <- p + scale_colour_manual(values=c(Total="#RRGGBBAA"))}
 
   #make treatment red and control blue
 
