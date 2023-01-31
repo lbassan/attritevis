@@ -307,9 +307,8 @@ plot_attrition <- function(data
   if(freq==FALSE & y == "responded"){data$y<-data$prop_r}
   if(freq==FALSE & y == "responded"){yname<-"Proportion of Responded"}
 
-
   #if users don't want to use total remove it
-  if(total == FALSE) {data<-data %>%filter(treatment!="Total")%>%}
+  if(total == FALSE) {data<-data %>%filter(treatment!="Total")}
 
   if(!is.null(treatment_q)){
     p <- data %>%
